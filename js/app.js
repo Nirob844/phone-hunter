@@ -83,4 +83,27 @@ document.getElementById('btn-show-all').addEventListener('click', function () {
     processSearch();
 })
 
+const loadPhoneDetails = async id => {
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    displayPhoneDetails(data.data);
+}
+
+const displayPhoneDetails = phone => {
+    console.log(phone);
+    const modalTitle = document.getElementById('phoneDetailModalLabel');
+    modalTitle.innerText = phone.name;
+    const phoneDetails = document.getElementById('phone-details');
+    console.log(phone.mainFeatures.sensors[0]);
+    phoneDetails.innerHTML = `
+        <p>Release Date: ${phone.releaseDate ? phone.releaseDate : 'No Release Date Found'}</p>
+        <p>Storage: ${phone.mainFeatures ? phone.mainFeatures.storage : 'No Storage Information '}</p>
+        <p>chipSet: ${phone.mainFeatures ? phone.mainFeatures.chipSet : 'No chipSet Information '}</p>
+        <p>display: ${phone.mainFeatures ? phone.mainFeatures.displaySize : 'No displaySize '}</p>
+        <p>Others: ${phone.others ? phone.others.Bluetooth : 'No Bluetooth Information'}</p>
+        <p>Sensor: ${phone.mainFeatures.sensors ? phone.mainFeatures.sensors[0] : 'no sensor'}</p>
+    `
+}
+
 loadPhones('apple');
